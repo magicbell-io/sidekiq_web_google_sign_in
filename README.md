@@ -1,6 +1,6 @@
 # Sidekiq Web Google Sign In
 
-Restrict access to your Sidekiq using Google Sign In.
+Restrict access to your Sidekiq using Google Sign In
 
 ## Installation
 
@@ -41,4 +41,5 @@ Restrict access to your Sidekiq using Google Sign In.
 
 ## Todos
 
+- Publish the gem in https://rubygems.org/
 - Support Sinatra applications
