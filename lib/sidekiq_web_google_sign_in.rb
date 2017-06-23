@@ -50,7 +50,7 @@ class SidekiqWebGoogleSignIn
       end
 
       def signed_in?
-        next if session[:signed_in]
+        session[:signed_in]
       end
 
       def signing_in?
