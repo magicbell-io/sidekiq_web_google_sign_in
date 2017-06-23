@@ -36,50 +36,50 @@ class SidekiqWebGoogleSignIn
           halt(403)
         end
       end
+    end
 
-      private
+    private
 
-      def session_secret
-        # Rails < 4
-        if Rails.configuration.respond_to?(:secret_token)
-          Rails.configuration.secret_token
-        # Rails >= 4
-        else
-          Rails.application.secrets[:secret_key_base]
-        end
+    def session_secret
+      # Rails < 4
+      if Rails.configuration.respond_to?(:secret_token)
+        Rails.configuration.secret_token
+      # Rails >= 4
+      else
+        Rails.application.secrets[:secret_key_base]
       end
+    end
 
-      def signed_in?
-        session[:signed_in]
-      end
+    def signed_in?
+      session[:signed_in]
+    end
 
-      def signing_in?
-        request.path_info.start_with?("/auth/google_oauth2")
-      end
+    def signing_in?
+      request.path_info.start_with?("/auth/google_oauth2")
+    end
 
-      def html_request?
-        Sinatra::Request.new(request.env).accept.include?("text/html")
-      end
+    def html_request?
+      Sinatra::Request.new(request.env).accept.include?("text/html")
+    end
 
-      def redirect_to_google_sign_in_page
-        redirect "/sidekiq/auth/google_oauth2"
-      end
+    def redirect_to_google_sign_in_page
+      redirect "/sidekiq/auth/google_oauth2"
+    end
 
-      def employee?
-        is_employee_email?(request.env["omniauth.auth"]["info"]["email"])
-      end
+    def employee?
+      is_employee_email?(request.env["omniauth.auth"]["info"]["email"])
+    end
 
-      def is_employee_email?(email)
-        @options[:employee_emails].call(email)
-      end
+    def is_employee_email?(email)
+      @options[:employee_emails].call(email)
+    end
 
-      def redirect_to_sidekiq_dashboard
-        redirect "/sidekiq"
-      end
+    def redirect_to_sidekiq_dashboard
+      redirect "/sidekiq"
+    end
 
-      def sign_in
-        session[:signed_in] = true
-      end
+    def sign_in
+      session[:signed_in] = true
     end
   end
 end
