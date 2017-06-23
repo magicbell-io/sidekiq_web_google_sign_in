@@ -38,3 +38,7 @@ Restrict access to your Sidekiq using Google Sign In.
    ```
 
    Replace `my_client_id` and `my_client_secret` with your actual client id and secret
+
+## Todos
+
+- Support Sinatra applications
