@@ -14,7 +14,7 @@ class SidekiqWebGoogleSignIn
         :secret => session_secret
       }
       Sidekiq::Web.set :sessions, sidekiq_web_session_options
-      Sidekiq::Web.register(SidekiqWebGoogleLogin)
+      Sidekiq::Web.register(SidekiqWebGoogleSignIn)
     end
 
     def registered(sidekiq_web)
