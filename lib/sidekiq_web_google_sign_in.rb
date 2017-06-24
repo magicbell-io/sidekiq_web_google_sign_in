@@ -37,6 +37,40 @@ class SidekiqWebGoogleSignIn
           halt(403)
         end
       end
+
+      sidekiq_web.helpers do
+        def signed_in?
+          session[:signed_in]
+        end
+
+        def signing_in?
+          request.path_info.start_with?("/auth/google_oauth2")
+        end
+
+        def html_request?
+          request.env["HTTP_ACCEPT"].include?("text/html")
+        end
+
+        def redirect_to_google_sign_in_page
+          redirect "/sidekiq/auth/google_oauth2"
+        end
+
+        def employee?
+          is_employee_email?(request.env["omniauth.auth"]["info"]["email"])
+        end
+
+        def is_employee_email?(email)
+          @options[:employee_emails].call(email)
+        end
+
+        def redirect_to_sidekiq_dashboard
+          redirect "/sidekiq"
+        end
+
+        def sign_in
+          session[:signed_in] = true
+        end
+      end
     end
 
     private
@@ -49,38 +83,6 @@ class SidekiqWebGoogleSignIn
       else
         Rails.application.secrets[:secret_key_base]
       end
-    end
-
-    def signed_in?
-      session[:signed_in]
-    end
-
-    def signing_in?
-      request.path_info.start_with?("/auth/google_oauth2")
-    end
-
-    def html_request?
-      Sinatra::Request.new(request.env).accept.include?("text/html")
-    end
-
-    def redirect_to_google_sign_in_page
-      redirect "/sidekiq/auth/google_oauth2"
-    end
-
-    def employee?
-      is_employee_email?(request.env["omniauth.auth"]["info"]["email"])
-    end
-
-    def is_employee_email?(email)
-      @options[:employee_emails].call(email)
-    end
-
-    def redirect_to_sidekiq_dashboard
-      redirect "/sidekiq"
-    end
-
-    def sign_in
-      session[:signed_in] = true
     end
   end
 end
