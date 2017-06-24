@@ -3,8 +3,9 @@ class SidekiqWebGoogleSignIn
     def use(options)
       @options = options
 
+      google_sign_in_client_id, google_sign_in_client_secret = @options.values_at(:google_sign_in_client_id, :google_sign_in_client_secret)
       Sidekiq::Web.use OmniAuth::Builder do
-        provider :google_oauth2, @options[:google_sign_in_client_id], @options[:google_sign_in_client_secret]
+        provider :google_oauth2, google_sign_in_client_id, google_sign_in_client_secret
       end
       sidekiq_web_session_options = {
         :key => "_sidekiqweb_session",
