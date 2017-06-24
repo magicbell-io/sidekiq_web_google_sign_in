@@ -3,6 +3,16 @@ class SidekiqWebGoogleSignIn
     def use(options)
       @options = options
 
+      unless defined?(Sidekiq::Web)
+        if defined?(Sidekiq::Enterprise)
+          require "sidekiq-ent/web"
+        elsif defined?(Sidekiq::Pro)
+          require "sidekiq/pro/web"
+        else
+          require "sidekiq/web"
+        end
+      end
+
       google_sign_in_client_id, google_sign_in_client_secret = @options.values_at(:google_sign_in_client_id, :google_sign_in_client_secret)
       Sidekiq::Web.use OmniAuth::Builder do
         provider :google_oauth2, google_sign_in_client_id, google_sign_in_client_secret
