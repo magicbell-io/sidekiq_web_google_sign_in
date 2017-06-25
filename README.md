@@ -1,6 +1,6 @@
-# Sidekiq Web Google Sign In
+# **sidekiq_web_google_sign_in**
 
-Restrict access to your Sidekiq using Google Sign In
+Protect your Sidekiq Web dashboard with Google Sign-In
 
 ## Installation
 
