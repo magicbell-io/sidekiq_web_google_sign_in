@@ -2,6 +2,8 @@ require "omniauth-google-oauth2"
 
 class SidekiqWebGoogleSignIn
   class << self
+    attr_accessor :options
+
     def use(options)
       @options = options
 
@@ -15,13 +17,13 @@ class SidekiqWebGoogleSignIn
         end
       end
 
-      google_sign_in_client_id, google_sign_in_client_secret = @options.values_at(:google_sign_in_client_id, :google_sign_in_client_secret)
+      google_sign_in_client_id, google_sign_in_client_secret = options.values_at(:google_sign_in_client_id, :google_sign_in_client_secret)
       Sidekiq::Web.use OmniAuth::Builder do
         provider :google_oauth2, google_sign_in_client_id, google_sign_in_client_secret
       end
       sidekiq_web_session_options = {
         :key => "_sidekiqweb_session",
-        :domain => @options[:session_domain],
+        :domain => options[:session_domain],
         :path => "/sidekiq",
         :expire_after => 24 * 60 * 60, # Automatically expire session after 24 hours
         :secret => session_secret
@@ -72,7 +74,7 @@ class SidekiqWebGoogleSignIn
         end
 
         def is_employee_email?(email)
-          @options[:employee_emails].call(email)
+          SidekiqWebGoogleSignIn.options[:employee_emails].call(email)
         end
 
         def redirect_to_sidekiq_dashboard
