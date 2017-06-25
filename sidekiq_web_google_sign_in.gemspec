@@ -9,5 +9,6 @@ Gem::Specification.new do |s|
   s.files       = ["lib/sidekiq_web_google_sign_in.rb"]
   s.homepage    = "https://github.com/magicbell-io/sidekiq_web_google_sign_in"
 
+  s.add_dependency("sidekiq", ">= 4.2.3")
   s.add_dependency("omniauth-google-oauth2")
 end
