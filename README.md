@@ -19,7 +19,7 @@ Protect your Sidekiq Web dashboard with Google Sign-In
 7. Add the `sidekiq_web_google_sign_in` gem to your Gemfile
 
    ```ruby
-   gem "sidekiq_web_google_sign_in"
+   gem "sidekiq_web_google_sign_in", :git => "https://github.com/magicbell-io/sidekiq_web_google_sign_in", :tag => "v1.0.0.beta1"
    ```
 
    and run
