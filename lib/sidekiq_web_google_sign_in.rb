@@ -1,3 +1,5 @@
+require "omniauth-google-oauth2"
+
 class SidekiqWebGoogleSignIn
   class << self
     def use(options)
