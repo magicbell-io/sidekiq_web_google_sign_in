@@ -28,18 +28,16 @@ Restrict access to your Sidekiq using Google Sign In
    bundle install
    ```
 
-8. Create the file `config/initializers/sidekiq_web_google_sign_in.rb` and copy paste the code below
+8. Create the file `config/initializers/sidekiq_web_google_sign_in.rb` and configure the gem
 
    ```ruby
    if Rails.env.production?
-     SidekiqWebGoogleSignIn.use :google_sign_in_client_id => "my_client_id",
-                                :google_sign_in_client_secret => "my_client_secret",
+     SidekiqWebGoogleSignIn.use :google_sign_in_client_id => "my_google_sign_in_client_id",
+                                :google_sign_in_client_secret => "my_google_sign_in_client_secret",
                                 :session_domain => "myapplication.com",
                                 :employee_emails => Proc.new { |email| email.end_with?("@myapplication.com") }
    end
    ```
-
-   Replace `my_client_id` and `my_client_secret` with your actual client id and secret
 
 ## Todos
 
