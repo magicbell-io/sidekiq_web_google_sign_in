@@ -7,6 +7,7 @@ class SidekiqWebGoogleSignIn
     def use(options)
       @options = options
 
+      # Require sidekiq web unless already required
       unless defined?(Sidekiq::Web)
         if defined?(Sidekiq::Enterprise)
           require "sidekiq-ent/web"
@@ -21,15 +22,17 @@ class SidekiqWebGoogleSignIn
       Sidekiq::Web.use OmniAuth::Builder do
         provider :google_oauth2, google_sign_in_client_id, google_sign_in_client_secret
       end
-      sidekiq_web_session_options = {
-        :key => "_sidekiqweb_session",
-        :domain => options[:session_domain],
-        :path => "/sidekiq",
-        :expire_after => 24 * 60 * 60, # Automatically expire session after 24 hours
-        :secret => session_secret
-      }
-      Sidekiq::Web.set :sessions, sidekiq_web_session_options
       Sidekiq::Web.register(SidekiqWebGoogleSignIn)
+      Rails.application.config.after_initialize do
+        sidekiq_web_session_options = {
+          :key => "_sidekiqweb_session",
+          :domain => options[:session_domain],
+          :path => "/sidekiq",
+          :expire_after => 24 * 60 * 60, # Automatically expire session after 24 hours
+          :secret => session_secret
+        }
+        Sidekiq::Web.set :sessions, sidekiq_web_session_options
+      end
     end
 
     def registered(sidekiq_web)
