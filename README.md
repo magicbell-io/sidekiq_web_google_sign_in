@@ -1,6 +1,6 @@
 # **sidekiq_web_google_sign_in**
 
-Protect your Sidekiq Web dashboard with Google Sign-In. We developed this for [MagicBell.io](http://magicbell.io)
+Protect your Sidekiq web dashboard with Google Sign-In
 
 ## Installation
 
